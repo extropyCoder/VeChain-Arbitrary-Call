@@ -1,4 +1,6 @@
 [profile.default]
+auto_detect_solc = true
+evm_version = "istanbul" 
 src = "src"
 out = "out"
 libs = ["lib"]
