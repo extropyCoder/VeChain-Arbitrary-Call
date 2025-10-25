@@ -1,7 +1,16 @@
 # Bug Description
-Executor.execute() performs an unchecked, low-level external call using proposals[_proposalID].target and proposals[_proposalID].data. Because there is no validation of the target address or the calldata, a proposal that meets the (lightweight) on-chain preconditions can cause the Executor to call any external contract with any calldata. This enables a governance adversary who can shepherd a proposal to quorum to cause arbitrary external side effects — including calls that transfer funds, change state in other contracts, or otherwise escalate into full system compromise.
+Executor.execute() performs an unchecked, low-level external call using proposals[_proposalID].target and proposals[_proposalID].data. 
+
+Because there is no validation of the target address or the calldata, a proposal that meets the (lightweight) on-chain preconditions can cause the Executor to call any external contract with any calldata. 
+
+This enables a governance adversary who can shepherd a proposal to quorum to cause arbitrary external side effects — including calls that transfer funds, change state in other contracts, or otherwise escalate into full system compromise.
+
 # Brief/Intro
-The executor contract lets a successful proposal execute arbitrary low-level calls to any address using unvalidated calldata. If an attacker can get a proposal to pass quorum, they can force the executor to call arbitrary contracts and functions — potentially draining funds, changing critical state, or taking over system components. A benign local PoC demonstrates the problem by calling a harmless contract function.
+The executor contract lets a successful proposal execute arbitrary low-level calls to any address using unvalidated calldata. 
+
+If an attacker can get a proposal to pass quorum, they can force the executor to call arbitrary contracts and functions — potentially draining funds, changing critical state, or taking over system components. 
+
+A benign local PoC demonstrates the problem by calling a harmless contract function.
 # Details
 The root cause is this raw call in execute():
 ```
