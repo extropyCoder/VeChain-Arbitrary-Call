@@ -53,36 +53,36 @@ Likelihood: depends on governance hygiene. If multisigs / timelocks / large quor
 
 Using the Immunefi classification, this fits High / Critical for systems where Executor can reach privileged or treasury-bearing contracts.
 # Recommendation
-Immediate/short-term mitigations (apply urgently):
+Immediate/short-term mitigations :
 
-Remove raw, arbitrary .call usage
+1. Remove raw, arbitrary .call usage
 Replace require(target.call(data)) with controlled forwarding functions that only allow specific, audited interactions.
 
-Whitelist approved targets
+2. Whitelist approved targets
 Maintain a whitelist of target addresses that the executor may call. Reject proposals whose target is not on the whitelist.
 
-Whitelist function selectors (optional)
+3. Whitelist function selectors  
 For each whitelisted target, restrict which function selectors may be called (e.g. allow only updateParameter(bytes32,uint256) selectors). Reject calldata that does not match allowed selectors.
 
-Add stronger governance gating
+4. Add stronger governance gating
 
-Require a timelock (delay) between approval and execution for sensitive operations.
+- Require a timelock (delay) between approval and execution for sensitive operations.
 
-Require multi-sig confirmation for proposals that touch treasury or admin functions.
+- Require multi-sig confirmation for proposals that touch treasury or admin functions.
 
-Increase quorum / approval thresholds for privileged actions.
+- Increase quorum / approval thresholds for privileged actions.
 
-Validate calldata
+5. Validate calldata
 If dynamic approval is required, implement ABI validation/decoding server-side or on-chain checks to ensure only safe function calls are forwarded.
 
-Reduce executor privileges
+6. Reduce executor privileges
 Ensure downstream contracts enforce role-based access control so an arbitrary call from Executor cannot unilaterally transfer funds (i.e. sensitive functions should verify msg.sender is an expected contract or multi-sig).
 
-Add logging & alerting
+7. Add logging & alerting
 Emit detailed events (target, selector, proposer, timestamp) on execute() and alert on calls to previously unseen targets/selectors.
 
-Suggested code pattern (example whitelist check):
-```
+Suggested  whitelist check:
+```solidity
 mapping(address => bool) public allowedTargets;
 mapping(address => mapping(bytes4 => bool)) public allowedSelectors; // optional
 
