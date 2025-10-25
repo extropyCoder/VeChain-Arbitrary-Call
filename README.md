@@ -130,7 +130,7 @@ Ensure foundry.toml includes:
 
 [profile.default]
 auto_detect_solc = true
-evm_version = "constantinople"
+evm_version = "istanbul"
 
 
 Run:
