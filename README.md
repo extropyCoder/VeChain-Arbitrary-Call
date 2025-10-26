@@ -62,7 +62,6 @@ Likelihood: depends on governance hygiene. If multisigs / timelocks / large quor
 
 Using the Immunefi classification, this fits High / Critical for systems where Executor can reach privileged or treasury-bearing contracts.
 # Recommendation
-Immediate/short-term mitigations :
 
 1. Remove raw, arbitrary .call usage
 Replace require(target.call(data)) with controlled forwarding functions that only allow specific, audited interactions.
